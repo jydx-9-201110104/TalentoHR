@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.crud.dao.SalaryMapper">
+  <resultMap id="BaseResultMap" type="com.atguigu.crud.bean.Salary">
+    <id column="emp_id" jdbcType="INTEGER" property="empId" />
+    <result column="emp_name" jdbcType="VARCHAR" property="empName" />
+    <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
+    <result column="base_salary" jdbcType="INTEGER" property="baseSalary" />
+    <result column="bonus" jdbcType="INTEGER" property="bonus" />
+    <result column="insurance" jdbcType="REAL" property="insurance" />
+    <result column="before_salary" jdbcType="REAL" property="beforeSalary" />
+    <result column="after_salary" jdbcType="REAL" property="afterSalary" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    emp_id, emp_name, dept_name, base_salary, bonus, insurance, before_salary, after_salary
+  </sql>
+  <select id="selectByExample" parameterType="com.atguigu.crud.bean.SalaryExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tbl_salary
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_salary
+    where emp_id = #{empId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tbl_salary
+    where emp_id = #{empId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.atguigu.crud.bean.SalaryExample">
+    delete from tbl_salary
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.atguigu.crud.bean.Salary">
+    insert into tbl_salary (emp_id, emp_name, dept_name, 
+      base_salary, bonus, insurance, 
+      before_salary, after_salary)
+    values (#{empId,jdbcType=INTEGER}, #{empName,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}, 
+      #{baseSalary,jdbcType=INTEGER}, #{bonus,jdbcType=INTEGER}, #{insurance,jdbcType=REAL}, 
+      #{beforeSalary,jdbcType=REAL}, #{afterSalary,jdbcType=REAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.atguigu.crud.bean.Salary">
+    insert into tbl_salary
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="empId != null">
+        emp_id,
+      </if>
+      <if test="empName != null">
+        emp_name,
+      </if>
+      <if test="deptName != null">
+        dept_name,
+      </if>
+      <if test="baseSalary != null">
+        base_salary,
+      </if>
+      <if test="bonus != null">
+        bonus,
+      </if>
+      <if test="insurance != null">
+        insurance,
+      </if>
+      <if test="beforeSalary != null">
+        before_salary,
+      </if>
+      <if test="afterSalary != null">
+        after_salary,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="empId != null">
+        #{empId,jdbcType=INTEGER},
+      </if>
+      <if test="empName != null">
+        #{empName,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null">
+        #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="baseSalary != null">
+        #{baseSalary,jdbcType=INTEGER},
+      </if>
+      <if test="bonus != null">
+        #{bonus,jdbcType=INTEGER},
+      </if>
+      <if test="insurance != null">
+        #{insurance,jdbcType=REAL},
+      </if>
+      <if test="beforeSalary != null">
+        #{beforeSalary,jdbcType=REAL},
+      </if>
+      <if test="afterSalary != null">
+        #{afterSalary,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.atguigu.crud.bean.SalaryExample" resultType="java.lang.Integer">
+    select count(*) from tbl_salary
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tbl_salary
+    <set>
+      <if test="record.empId != null">
+        emp_id = #{record.empId,jdbcType=INTEGER},
+      </if>
+      <if test="record.empName != null">
+        emp_name = #{record.empName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptName != null">
+        dept_name = #{record.deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.baseSalary != null">
+        base_salary = #{record.baseSalary,jdbcType=INTEGER},
+      </if>
+      <if test="record.bonus != null">
+        bonus = #{record.bonus,jdbcType=INTEGER},
+      </if>
+      <if test="record.insurance != null">
+        insurance = #{record.insurance,jdbcType=REAL},
+      </if>
+      <if test="record.beforeSalary != null">
+        before_salary = #{record.beforeSalary,jdbcType=REAL},
+      </if>
+      <if test="record.afterSalary != null">
+        after_salary = #{record.afterSalary,jdbcType=REAL},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tbl_salary
+    set emp_id = #{record.empId,jdbcType=INTEGER},
+      emp_name = #{record.empName,jdbcType=VARCHAR},
+      dept_name = #{record.deptName,jdbcType=VARCHAR},
+      base_salary = #{record.baseSalary,jdbcType=INTEGER},
+      bonus = #{record.bonus,jdbcType=INTEGER},
+      insurance = #{record.insurance,jdbcType=REAL},
+      before_salary = #{record.beforeSalary,jdbcType=REAL},
+      after_salary = #{record.afterSalary,jdbcType=REAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.atguigu.crud.bean.Salary">
+    update tbl_salary
+    <set>
+      <if test="empName != null">
+        emp_name = #{empName,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null">
+        dept_name = #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="baseSalary != null">
+        base_salary = #{baseSalary,jdbcType=INTEGER},
+      </if>
+      <if test="bonus != null">
+        bonus = #{bonus,jdbcType=INTEGER},
+      </if>
+      <if test="insurance != null">
+        insurance = #{insurance,jdbcType=REAL},
+      </if>
+
+      <if test="beforeSalary != null and beforeSalary&lt;=5000">
+        before_salary = #{beforeSalary,jdbcType=REAL},
+        after_salary = #{beforeSalary,jdbcType=REAL},
+      </if>
+      <if test="beforeSalary != null and beforeSalary&gt;5000 and beforeSalary&lt;=8000">
+        before_salary = #{beforeSalary,jdbcType=REAL},
+        after_salary = #{beforeSalary,jdbcType=REAL}-(#{beforeSalary,jdbcType=REAL}-5000)*0.03,
+      </if>
+      <if test="beforeSalary != null and beforeSalary&gt;8000 and beforeSalary&lt;=17000">
+        before_salary = #{beforeSalary,jdbcType=REAL},
+        after_salary = #{beforeSalary,jdbcType=REAL}-(#{beforeSalary,jdbcType=REAL}-5000)*0.1+210,
+      </if>
+      <if test="beforeSalary != null and beforeSalary&gt;17000 and beforeSalary&lt;=30000">
+        before_salary = #{beforeSalary,jdbcType=REAL},
+        after_salary = #{beforeSalary,jdbcType=REAL}-(#{beforeSalary,jdbcType=REAL}-5000)*0.2+1410,
+      </if>
+      <if test="beforeSalary != null and beforeSalary&gt;30000 and beforeSalary&lt;=40000">
+        before_salary = #{beforeSalary,jdbcType=REAL},
+        after_salary = #{beforeSalary,jdbcType=REAL}-(#{beforeSalary,jdbcType=REAL}-5000)*0.25+2260,
+      </if>
+      <if test="beforeSalary != null and beforeSalary&gt;40000 and beforeSalary&lt;=60000">
+        before_salary = #{beforeSalary,jdbcType=REAL},
+        after_salary = #{beforeSalary,jdbcType=REAL}-(#{beforeSalary,jdbcType=REAL}-5000)*0.30+4410,
+      </if>
+      <if test="beforeSalary != null and beforeSalary&gt;60000 and beforeSalary&lt;=85000">
+        before_salary = #{beforeSalary,jdbcType=REAL},
+        after_salary = #{beforeSalary,jdbcType=REAL}-(#{beforeSalary,jdbcType=REAL}-5000)*0.35+7160,
+      </if>
+      <if test="beforeSalary != null and beforeSalary&gt;85000">
+        before_salary = #{beforeSalary,jdbcType=REAL},
+        after_salary = #{beforeSalary,jdbcType=REAL}-(#{beforeSalary,jdbcType=REAL}-5000)*0.45+15160,
+      </if>
+
+
+
+    </set>
+    where emp_id = #{empId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.atguigu.crud.bean.Salary">
+    update tbl_salary
+    set emp_name = #{empName,jdbcType=VARCHAR},
+      dept_name = #{deptName,jdbcType=VARCHAR},
+      base_salary = #{baseSalary,jdbcType=INTEGER},
+      bonus = #{bonus,jdbcType=INTEGER},
+      insurance = #{insurance,jdbcType=REAL},
+      before_salary = #{beforeSalary,jdbcType=REAL},
+      after_salary = #{beforeSalary,jdbcType=REAL}
+    where emp_id = #{empId,jdbcType=INTEGER}
+  </update>
+
+  <resultMap id="WithDeptResultMap" type="com.atguigu.crud.bean.Salary">
+  	<id column="emp_id" jdbcType="INTEGER" property="empId" />
+    <result column="emp_name" jdbcType="VARCHAR" property="empName" />
+    <result column="base_salary" jdbcType="INTEGER" property="baseSalary" />
+    <result column="bonus" jdbcType="INTEGER" property="bonus" />
+    <result column="insurance" jdbcType="VARCHAR" property="insurance" />
+    <result column="before_salary" jdbcType="VARCHAR" property="beforeSalary" />
+    <result column="after_salary" jdbcType="VARCHAR" property="afterSalary" />
+    <!-- 指定联合查询出的部门字段的封装 -->
+    <association javaType="com.atguigu.crud.bean.Department" property="department">
+    	<id column="dept_id" property="deptId" />
+    	<result column="dept_name" property="deptName" />
+    </association>
+  </resultMap>
+<!--  <sql id="Example_Where_Clause">-->
+<!--    <where>-->
+<!--      <foreach collection="oredCriteria" item="criteria" separator="or">-->
+<!--        <if test="criteria.valid">-->
+<!--          <trim prefix="(" prefixOverrides="and" suffix=")">-->
+<!--            <foreach collection="criteria.criteria" item="criterion">-->
+<!--              <choose>-->
+<!--                <when test="criterion.noValue">-->
+<!--                  and ${criterion.condition}-->
+<!--                </when>-->
+<!--                <when test="criterion.singleValue">-->
+<!--                  and ${criterion.condition} #{criterion.value}-->
+<!--                </when>-->
+<!--                <when test="criterion.betweenValue">-->
+<!--                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}-->
+<!--                </when>-->
+<!--                <when test="criterion.listValue">-->
+<!--                  and ${criterion.condition}-->
+<!--                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">-->
+<!--                    #{listItem}-->
+<!--                  </foreach>-->
+<!--                </when>-->
+<!--              </choose>-->
+<!--            </foreach>-->
+<!--          </trim>-->
+<!--        </if>-->
+<!--      </foreach>-->
+<!--    </where>-->
+<!--  </sql>-->
+<!--  <sql id="Update_By_Example_Where_Clause">-->
+<!--    <where>-->
+<!--      <foreach collection="example.oredCriteria" item="criteria" separator="or">-->
+<!--        <if test="criteria.valid">-->
+<!--          <trim prefix="(" prefixOverrides="and" suffix=")">-->
+<!--            <foreach collection="criteria.criteria" item="criterion">-->
+<!--              <choose>-->
+<!--                <when test="criterion.noValue">-->
+<!--                  and ${criterion.condition}-->
+<!--                </when>-->
+<!--                <when test="criterion.singleValue">-->
+<!--                  and ${criterion.condition} #{criterion.value}-->
+<!--                </when>-->
+<!--                <when test="criterion.betweenValue">-->
+<!--                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}-->
+<!--                </when>-->
+<!--                <when test="criterion.listValue">-->
+<!--                  and ${criterion.condition}-->
+<!--                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">-->
+<!--                    #{listItem}-->
+<!--                  </foreach>-->
+<!--                </when>-->
+<!--              </choose>-->
+<!--            </foreach>-->
+<!--          </trim>-->
+<!--        </if>-->
+<!--      </foreach>-->
+<!--    </where>-->
+<!--  </sql>-->
+<!--  <sql id="Base_Column_List">-->
+<!--    emp_id, emp_name, gender, email, d_id-->
+<!--  </sql>-->
+  <sql id="WithDept_Column_List">
+  	e.emp_id, e.emp_name, e.gender, e.email, e.d_id,d.dept_id,d.dept_name
+  </sql>
+  <!--   List<Employee> selectByExampleWithDept(EmployeeExample example);
+    Employee selectByPrimaryKeyWithDept(Integer empId); 
+    -->
+   <!-- 查询员工同时带部门信息 -->
+  <select id="selectByExampleWithDept" resultMap="WithDeptResultMap">
+	   select
+	    <if test="distinct">
+	      distinct
+	    </if>
+	    <include refid="Base_Column_List" />
+		FROM tbl_salary e
+-- 		left join tbl_dept d on e.`d_id`=d.`dept_id`
+	    <if test="_parameter != null">
+	      <include refid="Example_Where_Clause" />
+	    </if>
+	    <if test="orderByClause != null">
+	      order by ${orderByClause}
+	    </if>
+  </select>
+  <select id="selectByPrimaryKeyWithDept" resultMap="WithDeptResultMap">
+   	select 
+    <include refid="WithDept_Column_List" />
+    FROM tbl_emp e
+	left join tbl_dept d on e.`d_id`=d.`dept_id`
+    where emp_id = #{empId,jdbcType=INTEGER}
+  </select>
+  
+
+</mapper>
